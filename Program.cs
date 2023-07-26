@@ -1,7 +1,28 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Authentication.Cookies;
 
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var confirguration = builder.Configuration;
+
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/signin-google";
+                })
+                .AddGoogle(options =>
+                {
+                        var googleAuthNSection =
+                        confirguration.GetSection("Authentication:Google");
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
 
 var app = builder.Build();
 

@@ -1,0 +1,49 @@
+@page
+@model Google_Login_Dot_Net_7_0.Pages.SignInModel
+
+@Html.AntiForgeryToken()
+<p>
+@Model.Issuer
+@Model.OriginalIssuer
+@Model.Type
+@Model.Value</p>
+
+<div class="social-login">
+    <a href="" id="googlesignin">
+    <img src="../images/google-icon.svg" alt="" />
+    <span>Google</span>
+    </a>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $('#googlesignin').on("click",function(e)
+{
+    e.preventDefault();
+
+    $.ajax({ 
+        type: "POST",
+        url: "/SignIn?handler=GoogleLogin",
+        contentType: "application/json",
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+
+
+        success: function (response) {
+            console.log(response)
+            if (response.statusCode == 200) {
+                
+
+            }
+        },
+        error: function (xhr, status, err) {
+            console.log(xhr,err,status)
+            return;
+        }
+    })
+
+
+});
+</script>

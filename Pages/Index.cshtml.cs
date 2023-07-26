@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Google_Login_Dot_Net_7._0.Pages;
+namespace Google_Login_Dot_Net_7_0.Pages;
 
 public class IndexModel : PageModel
 {

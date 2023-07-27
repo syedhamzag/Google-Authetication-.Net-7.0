@@ -14,12 +14,13 @@ services.AddAuthentication(options =>
             })
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/signin-google";
+                    //options.LoginPath = "/signin-google"; Default login path needs to change it on Google Console/Credentials/OAuth 2.0 Client IDs
+                    options.LoginPath = "/";
                 })
                 .AddGoogle(options =>
                 {
-                        var googleAuthNSection =
-                        confirguration.GetSection("Authentication:Google");
+                    var googleAuthNSection =
+                    confirguration.GetSection("Authentication:Google");
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
@@ -34,13 +35,21 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// app.UseHttpsRedirection();
+// app.UseStaticFiles();
+
+// app.UseRouting();
+
+// app.UseAuthorization();
+
+// app.MapRazorPages();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
-
 app.MapRazorPages();
 
 app.Run();
